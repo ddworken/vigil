@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='vigil',
-    version='0.1',
+    version='0.1.1',
     author='David Dworken',
     author_email='david@daviddworken.com',
     packages=['vigil'],
@@ -10,9 +10,4 @@ setup(
     license='LICENSE.txt',
     description='vigil... as a python package',
     long_description=open('README.md').read(),
-    install_requires=[
-        "sys",
-        "operators",
-        "inspect",
-    ],
 )

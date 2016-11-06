@@ -1,0 +1,17 @@
+import vigil
+import math
+
+@vigil.implore(">=", 0, 0)
+def sqrt(x):
+    return math.sqrt(x)
+
+def main():
+    print("When implores are not violated, everything works fine. ")
+    print("sqrt(2): ")
+    print(sqrt(2))
+    print("But when they are violated...")
+    print("sqrt(-2): ")
+    print(sqrt(-2))
+
+if __name__ == "__main__":
+    main()
