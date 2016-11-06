@@ -3,7 +3,7 @@ import pypandoc
 
 setup(
     name='vigil',
-    version='0.1.2',
+    version='0.1.3',
     author='David Dworken',
     author_email='david@daviddworken.com',
     packages=['vigil'],

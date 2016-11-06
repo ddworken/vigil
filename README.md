@@ -28,6 +28,7 @@ Functions can state the oaths they promise to uphold via ```vigil.swear```:
 import math
 import vigil
 
+# The output must be greater than 0
 @vigil.swear(">=", 0)
 def sqr(x):
     return x*x
