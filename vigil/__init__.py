@@ -6,6 +6,7 @@ class VigilError(Exception):
         Exception.__init__(self,*args,**kwargs)
 
 class swear(object):
+    # An array of hardcoded operator to function conversions
     ops = {'>': operator.gt,
            '<': operator.lt,
            '>=': operator.ge,
@@ -18,13 +19,13 @@ class swear(object):
 
     def __call__(self, f):
         def wrapped_f(*args):
+            # Use inspect to grab the name of the file that contained the function
             callerFilename = inspect.stack()[1][1]
-            if str(type(self.func)) == "str":
-                self.func = ops[self.func]
             try:
                 out = f(*args)
             except:
                 out = None
+            # Convert a string to a function using the above table
             if str(type(self.func)) == "<type 'str'>" or str(type(self.func)) == "<class 'str'>":
                 self.func = self.ops[self.func]
             if self.func(out, self.expectedOut) == False:
@@ -35,6 +36,7 @@ class swear(object):
         return wrapped_f
 
 class implore(object):
+    # An array of hardcoded operator to function conversions
     ops = {'>': operator.gt,
            '<': operator.lt,
            '>=': operator.ge,
@@ -48,8 +50,11 @@ class implore(object):
 
     def __call__(self, f):
         def wrapped_f(*args):
+            # Use inspect to grab the name of the function that called it
+            # and the file it is in
             caller = inspect.stack()[1][3]
             callerFilename = inspect.stack()[1][1]
+            # Convert any strings into functions
             if str(type(self.func)) == "<type 'str'>" or str(type(self.func)) == "<class 'str'>":
                 self.func = self.ops[self.func]
             if self.func(args[self.argIndex], self.arg2) == False:
@@ -60,7 +65,11 @@ class implore(object):
         return wrapped_f
 
 def deleteFunction(filename, functionName):
+    """ String, String -> None
+        Deletes the specified function in the specified file"""
     def getIndentationLevel(line):
+        """ Returns the indentation level of the specified line measured
+            in number of spaces. """
         indentedLength = len(line.replace("\t", "    "))
         unindentedLength = len(line.replace("\t", "    "))
         return unindentedLength - indentedLength
@@ -76,20 +85,24 @@ def deleteFunction(filename, functionName):
         print("Function definition not found!")
         return
     initIndentationLevel = getIndentationLevel(program[indexStart])
+    # Find the next line that is at the same indentation level
     for index,line in enumerate(program[indexStart]):
         indentationLevel = getIndentationLevel(line)
         if indentationLevel == initIndentationLevel:
             indexEnd = indexStart + index
+    # Remove the function
     program = program[:indexStart] + program[indexEnd:]
+    # Write to a file
     with open(filename+"modded", "w") as f:
         f.write("\n".join(program))
 
-with open("vigil.conf") as f:
-    delete = f.read().split("=")[1].strip() == True
-
-def equal(a1, a2):
-    return a1==a2
-
+try:
+    with open("vigil.conf") as f:
+        delete = f.read().split("=")[1].strip() == True
+except:
+    # If vigil.conf doesn't exist, then default to not deleting anything
+    delete = False
+        
 def main():
     import sys
 
