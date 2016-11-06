@@ -9,7 +9,7 @@ setup(
     url='http://pypi.python.org/pypi/vigil/',
     license='LICENSE.txt',
     description='vigil... as a python package',
-    long_description=open('README.rd').read(),
+    long_description=open('README.md').read(),
     install_requires=[
         "sys",
         "operators",
